@@ -19,12 +19,27 @@ public class RoomService {
 	}
 	
 	//add a room
-	public void addRoom(Room room) {
-		roomrepo.save(room);
+	public Room addRoom(Room room) {
+		return roomrepo.save(room);
 	}
 
-	public void updateroom(Long room_id, Room uproom) {
-		
-		
+	//update a room by id
+	public Room updateRoom(Long roomId, Room uproom) {
+		Room existingRoom=roomrepo.findById(roomId)
+								  .orElseThrow(() -> new IllegalArgumentException("Room with id" +roomId+ " is not found"));
+		existingRoom.setRoomNo(uproom.getRoomNo());
+		existingRoom.setCategory(uproom.getCategory());
+		existingRoom.setCapacity(uproom.getCapacity());
+		return roomrepo.save(existingRoom);
 	}
+
+	//delete a room by id
+	public void deleteRoom(Long roomId) {
+		if(roomrepo.existsById(roomId)) {
+			roomrepo.deleteById(roomId);
+		} else {
+			throw new IllegalArgumentException("Room with id" +roomId+ " is not found");
+		}
+	}
+	
 }

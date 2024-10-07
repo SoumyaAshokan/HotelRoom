@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 public class Booking {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long booking_id;
+	private Long bookingId;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id",nullable=false)
@@ -26,11 +26,11 @@ public class Booking {
 	@JoinColumn(name="room_id",nullable=false)
 	private Room room;
 	
-	private LocalDate check_in;
-	private LocalDate check_out;
+	private LocalDate checkIn;
+	private LocalDate checkOut;
 	
 	@Column(name="bcp")
-	private int booked_occuppancy;
+	private int bookedOccuppancy;
 	
 	private boolean status;
 	
@@ -38,23 +38,23 @@ public class Booking {
 		super();
 	}
 
-	public Booking(User user, Room room, LocalDate check_in, LocalDate check_out, int booked_occuppancy,
+	public Booking(User user, Room room, LocalDate checkIn, LocalDate checkOut, int bookedOccuppancy,
 			boolean status) {
 		super();
 		this.user = user;
 		this.room = room;
-		this.check_in = check_in;
-		this.check_out = check_out;
-		this.booked_occuppancy = booked_occuppancy;
+		this.checkIn = checkIn;
+		this.checkOut = checkOut;
+		this.bookedOccuppancy = bookedOccuppancy;
 		this.status = status;
 	}
 
-	public Long getBooking_id() {
-		return booking_id;
+	public Long getBookingId() {
+		return bookingId;
 	}
 
-	public void setBooking_id(Long booking_id) {
-		this.booking_id = booking_id;
+	public void setBookingId(Long bookingId) {
+		this.bookingId = bookingId;
 	}
 
 	public User getUser() {
@@ -73,28 +73,28 @@ public class Booking {
 		this.room = room;
 	}
 
-	public LocalDate getCheck_in() {
-		return check_in;
+	public LocalDate getCheckIn() {
+		return checkIn;
 	}
 
-	public void setCheck_in(LocalDate check_in) {
-		this.check_in = check_in;
+	public void setCheckIn(LocalDate checkIn) {
+		this.checkIn = checkIn;
 	}
 
-	public LocalDate getCheck_out() {
-		return check_out;
+	public LocalDate getCheckOut() {
+		return checkOut;
 	}
 
-	public void setCheck_out(LocalDate check_out) {
-		this.check_out = check_out;
+	public void setCheckOut(LocalDate checkOut) {
+		this.checkOut = checkOut;
 	}
 
-	public int getBooked_occuppancy() {
-		return booked_occuppancy;
+	public int getBookedOccuppancy() {
+		return bookedOccuppancy;
 	}
 
-	public void setBooked_occuppancy(int booked_occuppancy) {
-		this.booked_occuppancy = booked_occuppancy;
+	public void setBookedOccuppancy(int bookedOccuppancy) {
+		this.bookedOccuppancy = bookedOccuppancy;
 	}
 
 	public boolean isStatus() {
@@ -104,5 +104,6 @@ public class Booking {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+
 	
 }
