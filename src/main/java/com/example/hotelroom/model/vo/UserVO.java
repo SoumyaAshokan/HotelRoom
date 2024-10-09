@@ -6,16 +6,6 @@ public class UserVO {
 	private String userName;
 	private String role;
 
-	public UserVO() {
-		super();
-	}
-
-	public UserVO(Long userId, String userName, String role) {
-		super();
-		this.userId = userId;
-		this.userName = userName;
-		this.role = role;
-	}
 
 	public Long getUserId() {
 		return userId;

@@ -25,8 +25,8 @@ public class RoomService {
 	}
 	
 	//add a room
-	public void addRoom(Long userId, RoomVO roomVO) {
-		User user=getUserById(userId);
+	public void addRoom(String userName, RoomVO roomVO) {
+		User user=getUserByName(userName);
 		if(!user.getRole().equalsIgnoreCase("Admin")) {
 			throw new IllegalArgumentException("Only admin can add rooms.");
 		}
@@ -36,8 +36,8 @@ public class RoomService {
 	}
 
 	//update a room by id
-	public void updateRoom(Long userId, Long roomId, RoomVO roomVO) {
-		User user=getUserById(userId);
+	public void updateRoom(String userName, Long roomId, RoomVO roomVO) {
+		User user=getUserByName(userName);
 		if(!user.getRole().equalsIgnoreCase("Admin")) {
 			throw new IllegalArgumentException("Only admin can update rooms.");
 		}
@@ -51,8 +51,8 @@ public class RoomService {
 	}
 	
 	//delete a room by id
-	public void deleteRoom(Long userId, Long roomId) {
-		User user=getUserById(userId);
+	public void deleteRoom(String userName, Long roomId) {
+		User user=getUserByName(userName);
 		if(!user.getRole().equalsIgnoreCase("Admin")) {
 			throw new IllegalArgumentException("Only admin can delete rooms");
 		}
@@ -64,6 +64,7 @@ public class RoomService {
 		}
 	}
 	
+
 	//convert RoomVO to Room Entity
 	private Room convertToEntity(RoomVO roomVO) {
 		Room room=new Room();
@@ -84,8 +85,8 @@ public class RoomService {
 		return roomVO;
 	}
 	
-	private User getUserById(Long userId) {
-		return userRepo.findById(userId).orElseThrow(()-> new IllegalArgumentException("User not found"));
-	}
-	
+	private User getUserByName(String userName) {
+			return userRepo.findByUserName(userName)
+					       .orElseThrow(()-> new IllegalArgumentException("User not found"));
+		}
 }

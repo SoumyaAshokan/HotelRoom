@@ -33,24 +33,24 @@ public class RoomController {
 	
 	//add a room
 	@PostMapping("/rooms")
-	public ResponseEntity<String> addRoom(@RequestHeader("userId") Long userId,@RequestBody RoomVO roomVO) {
-		roomservice.addRoom(userId,roomVO);
+	public ResponseEntity<String> addRoom(@RequestHeader("userName") String userName,@RequestBody RoomVO roomVO) {
+		roomservice.addRoom(userName,roomVO);
 		return ResponseEntity.ok("Room added successfully");
 	}
 	
 	//update a room by id
 	@PutMapping("/rooms/{roomId}")
-	public ResponseEntity<String> updateRoom(@RequestHeader("userId") Long userId,
+	public ResponseEntity<String> updateRoom(@RequestHeader("userName") String userName,
 											 @PathVariable Long roomId,
 											 @RequestBody RoomVO roomVO) {
-		roomservice.updateRoom(userId,roomId,roomVO);
+		roomservice.updateRoom(userName,roomId,roomVO);
 		return ResponseEntity.ok("Room updated successfully");
 	}
 	
 	//delete a room by id
 	@DeleteMapping("/rooms/{roomId}")
-	public ResponseEntity<String> deleteRoom(@RequestHeader("userId") Long userId,@PathVariable Long roomId) {
-		roomservice.deleteRoom(userId,roomId);
+	public ResponseEntity<String> deleteRoom(@RequestHeader("userName") String userName,@PathVariable Long roomId) {
+		roomservice.deleteRoom(userName,roomId);
 		return ResponseEntity.ok("Room deleted succesfully");
 	}
 	

@@ -6,18 +6,6 @@ public class RoomVO {
 	private String roomNo;
 	private String category;
 	private int capacity;
-	
-	public RoomVO() {
-		super();
-	}
-
-	public RoomVO(Long roomId, String roomNo, String category, int capacity) {
-		super();
-		this.roomId = roomId;
-		this.roomNo = roomNo;
-		this.category = category;
-		this.capacity = capacity;
-	}
 
 	public Long getRoomId() {
 		return roomId;

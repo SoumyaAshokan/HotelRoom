@@ -30,7 +30,7 @@ public class Booking {
 	private LocalDate checkOut;
 	
 	@Column(name="bcp")
-	private int bookedOccuppancy;
+	private int bookedOccupancy;
 	
 	private boolean status;
 	
@@ -38,14 +38,14 @@ public class Booking {
 		super();
 	}
 
-	public Booking(User user, Room room, LocalDate checkIn, LocalDate checkOut, int bookedOccuppancy,
+	public Booking(User user, Room room, LocalDate checkIn, LocalDate checkOut, int bookedOccupancy,
 			boolean status) {
 		super();
 		this.user = user;
 		this.room = room;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
-		this.bookedOccuppancy = bookedOccuppancy;
+		this.bookedOccupancy = bookedOccupancy;
 		this.status = status;
 	}
 
@@ -89,12 +89,12 @@ public class Booking {
 		this.checkOut = checkOut;
 	}
 
-	public int getBookedOccuppancy() {
-		return bookedOccuppancy;
+	public int getBookedOccupancy() {
+		return bookedOccupancy;
 	}
 
-	public void setBookedOccuppancy(int bookedOccuppancy) {
-		this.bookedOccuppancy = bookedOccuppancy;
+	public void setBookedOccuppancy(int bookedOccupancy) {
+		this.bookedOccupancy = bookedOccupancy;
 	}
 
 	public boolean isStatus() {

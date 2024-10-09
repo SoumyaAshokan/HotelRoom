@@ -12,22 +12,6 @@ public class BookingVO {
 	private int bookedOccupancy;
 	private boolean status;
 	
-	
-	public BookingVO() {
-		super();
-	}
-
-	public BookingVO(Long bookingId, Long userId, Long roomId, LocalDate checkIn, LocalDate checkOut,
-					 int bookedOccupancy, boolean status) {
-		super();
-		this.bookingId = bookingId;
-		this.userId = userId;
-		this.roomId = roomId;
-		this.checkIn = checkIn;
-		this.checkOut = checkOut;
-		this.bookedOccupancy = bookedOccupancy;
-		this.status = status;
-	}
 
 	public Long getBookingId() {
 		return bookingId;
