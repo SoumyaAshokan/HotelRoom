@@ -1,27 +1,18 @@
-package com.example.hotelroom.model;
+package com.example.hotelroom.model.vo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+public class UserVO {
 
-@Entity
-@Table(name="users")
-public class User {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long userId;
-	
 	private String userName;
 	private String role;
-	
-	public User() {
+
+	public UserVO() {
 		super();
 	}
-	
-	public User(String userName, String role) {
+
+	public UserVO(Long userId, String userName, String role) {
 		super();
+		this.userId = userId;
 		this.userName = userName;
 		this.role = role;
 	}
@@ -49,7 +40,4 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
-	
-	
 }

@@ -1,28 +1,19 @@
-package com.example.hotelroom.model;
+package com.example.hotelroom.model.vo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name="rooms")
-public class Room {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long roomId;
+public class RoomVO {
 	
+	private Long roomId;
 	private String roomNo;
 	private String category;
 	private int capacity;
 	
-	public Room() {
+	public RoomVO() {
 		super();
 	}
-	
-	public Room(String roomNo, String category, int capacity) {
+
+	public RoomVO(Long roomId, String roomNo, String category, int capacity) {
 		super();
+		this.roomId = roomId;
 		this.roomNo = roomNo;
 		this.category = category;
 		this.capacity = capacity;
@@ -59,7 +50,6 @@ public class Room {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
-
 	
-	
+		
 }

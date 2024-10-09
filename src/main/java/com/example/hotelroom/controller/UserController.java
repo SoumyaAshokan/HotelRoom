@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.hotelroom.model.User;
+import com.example.hotelroom.model.entity.User;
 import com.example.hotelroom.service.UserService;
 
 @RestController
