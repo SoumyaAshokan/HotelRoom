@@ -4,69 +4,50 @@ import java.time.LocalDate;
 
 public class BookingVO {
 
-	private Long bookingId;
-	private Long userId;
-	private Long roomId;
+	private String bookingNo;
+	private String roomNo;
 	private LocalDate checkIn;
 	private LocalDate checkOut;
+	private String category;
 	private int bookedOccupancy;
-	private boolean status;
 	
-
-	public Long getBookingId() {
-		return bookingId;
+	public String getBookingNo() {
+		return bookingNo;
 	}
-
-	public void setBookingId(Long bookingId) {
-		this.bookingId = bookingId;
+	public void setBookingNo(String bookingNo) {
+		this.bookingNo = bookingNo;
 	}
-
-	public Long getUserId() {
-		return userId;
+	public String getRoomNo() {
+		return roomNo;
 	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setRoomNo(String roomNo) {
+		this.roomNo = roomNo;
 	}
-
-	public Long getRoomId() {
-		return roomId;
-	}
-
-	public void setRoomId(Long roomId) {
-		this.roomId = roomId;
-	}
-
 	public LocalDate getCheckIn() {
 		return checkIn;
 	}
-
 	public void setCheckIn(LocalDate checkIn) {
 		this.checkIn = checkIn;
 	}
-
 	public LocalDate getCheckOut() {
 		return checkOut;
 	}
-
 	public void setCheckOut(LocalDate checkOut) {
 		this.checkOut = checkOut;
 	}
-
+	
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
 	public int getBookedOccupancy() {
 		return bookedOccupancy;
 	}
-
 	public void setBookedOccupancy(int bookedOccupancy) {
 		this.bookedOccupancy = bookedOccupancy;
-	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
 	}
 	
 }

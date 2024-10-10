@@ -32,13 +32,16 @@ public class Booking {
 	@Column(name="bcp")
 	private int bookedOccupancy;
 	
+	@Column(name="booking_no",nullable=false,unique=true)
+	private String bookingNo;
+	
 	private boolean status;
 	
 	public Booking() {
 		super();
 	}
 
-	public Booking(User user, Room room, LocalDate checkIn, LocalDate checkOut, int bookedOccupancy,
+	public Booking(User user, Room room, LocalDate checkIn, LocalDate checkOut, int bookedOccupancy,String bookingNo,
 			boolean status) {
 		super();
 		this.user = user;
@@ -46,6 +49,7 @@ public class Booking {
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
 		this.bookedOccupancy = bookedOccupancy;
+		this.bookingNo=bookingNo;
 		this.status = status;
 	}
 
@@ -95,6 +99,15 @@ public class Booking {
 
 	public void setBookedOccuppancy(int bookedOccupancy) {
 		this.bookedOccupancy = bookedOccupancy;
+	}
+
+
+	public String getBookingNo() {
+		return bookingNo;
+	}
+
+	public void setBookingNo(String bookingNo) {
+		this.bookingNo = bookingNo;
 	}
 
 	public boolean isStatus() {

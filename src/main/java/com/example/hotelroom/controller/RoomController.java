@@ -33,14 +33,14 @@ public class RoomController {
 	
 	//add a room
 	@PostMapping("/rooms")
-	public ResponseEntity<String> addRoom(@RequestHeader("userName") String userName,@RequestBody RoomVO roomVO) {
+	public ResponseEntity<String> addRoom(@RequestHeader("userId") String userName,@RequestBody RoomVO roomVO) {
 		roomservice.addRoom(userName,roomVO);
 		return ResponseEntity.ok("Room added successfully");
 	}
 	
 	//update a room by id
 	@PutMapping("/rooms/{roomId}")
-	public ResponseEntity<String> updateRoom(@RequestHeader("userName") String userName,
+	public ResponseEntity<String> updateRoom(@RequestHeader("userId") String userName,
 											 @PathVariable Long roomId,
 											 @RequestBody RoomVO roomVO) {
 		roomservice.updateRoom(userName,roomId,roomVO);
@@ -49,7 +49,7 @@ public class RoomController {
 	
 	//delete a room by id
 	@DeleteMapping("/rooms/{roomId}")
-	public ResponseEntity<String> deleteRoom(@RequestHeader("userName") String userName,@PathVariable Long roomId) {
+	public ResponseEntity<String> deleteRoom(@RequestHeader("userId") String userName,@PathVariable Long roomId) {
 		roomservice.deleteRoom(userName,roomId);
 		return ResponseEntity.ok("Room deleted succesfully");
 	}
