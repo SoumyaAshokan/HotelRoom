@@ -16,44 +16,18 @@ import com.example.hotelroom.service.BookingService;
 public class BookingController {
 	@Autowired
 	BookingService bookingService;
+
 	
-	//Check room availability for a selected date and room type
-//	@PostMapping("/availability/{roomId}")
-//	public ResponseEntity<String> checkRoomAvailability(@RequestHeader("userId") String userName,
-//			@PathVariable Long roomId, @RequestBody BookingVO bookingVO) {
-//		try {
-//			String bookingNO = bookingService.checkRoomAvailability(userName, roomId, bookingVO);
-//			return ResponseEntity.ok("Room reserved successfully. Booking number is:" + bookingNO);
-//		} catch (IllegalArgumentException e) {
-//			return ResponseEntity.badRequest().body(e.getMessage());
-//		}
-//	}
 	
-	@PostMapping("/availability/{roomId}")
-	public ResponseEntity<String> checkRoomAvailability(@RequestHeader("userId") String userName,@PathVariable Long roomId,
+	//Check room availability for a selected date and room type and reserve a room
+	@PostMapping("/reserveBook")
+	public ResponseEntity<String> checkRoomAvailability(@RequestHeader("userId") String userName,
 	                                          @RequestBody BookingVO bookingVO) {
-	    String bookingNO = bookingService.checkRoomAvailability(userName, roomId, bookingVO  );
+	    String bookingNO = bookingService.checkRoomAvailability(userName, bookingVO  );
 	    return ResponseEntity.ok("Room reserved successfully. Booking number is: " + bookingNO);
 	}
 	
 	
-	//Reserve a room for a specific date and room type
-//	@PostMapping("/reserve")
-	
-//	public ResponseEntity<String> reserveRoom(@RequestHeader("userId") String userName,
-//											  @RequestBody BookingVO bookingVO) {
-//		String bookingNO=bookingService.reserveRoom(userName,bookingVO);
-//		return ResponseEntity.ok("Room reserved successfully. Booking number is:"+bookingNO);
-//	}
-	
-//	public ResponseEntity<String> reserveRoom(@RequestHeader("userId") String userName,
-//			  								  @RequestBody BookingVO bookingVO) {
-//		try {
-//				String bookingNO=bookingService.reserveRoom(userName,bookingVO);
-//				return ResponseEntity.ok("Room reserved successfully. Booking number is:"+bookingNO);
-//		} catch(IllegalArgumentException e) {
-//			return ResponseEntity.badRequest().body(e.getMessage());
-//		}
-//}
+
 
 }

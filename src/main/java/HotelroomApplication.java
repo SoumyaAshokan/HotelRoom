@@ -1,4 +1,4 @@
-package com.example.hotelroom;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackages = "com.example.hotelroom.model")
 @ComponentScan(basePackages = "com.example.hotelroom.service")
 @ComponentScan(basePackages = "com.example.hotelroom.controller")
-@ComponentScan(basePackages = "com.example.hotelroom.repository.impl")
 public class HotelroomApplication {
 
 	public static void main(String[] args) {

@@ -34,52 +34,63 @@ public class BookingService {
 	UserRepository userRepo;
 	
 	//Check room availability for a selected date and room type and reserve a room
-	public String checkRoomAvailability(String userName, Long roomId, BookingVO bookingVO) {
-		boolean isAvailable;
-		Room room=roomRepo.findById(roomId).orElseThrow(()->new IllegalArgumentException("Room not found"));
-
-		User user= userRepo.findByUserName(userName)
-		          .orElseThrow(()->new IllegalArgumentException("User not found"));
-		
-		List<Booking> bookingList = bookingRepo.findAll();
-		if(!CollectionUtils.isEmpty(bookingList)) {
-			isAvailable = customBookingRepo.isRoomAvailable(roomId,bookingVO.getCheckIn(),bookingVO.getCheckOut());
-		} else {
-			isAvailable = true;
-		}
-		if(isAvailable) {
-			Booking booking = convertToEntity(bookingVO, room, user);
-	        booking.setBookingNo(generateBookingNo());
-	        bookingRepo.save(booking);
-	        return booking.getBookingNo();		
-		} else { 	
-			throw new IllegalArgumentException("Room is not available for the selected dates.");
-		}
-	}
-	
-	//Reserve a room for a specific date and room type
-//	public String reserveRoom(String userName,BookingVO bookingVO) {
-//		Room room=roomRepo.findByRoomNo(bookingVO.getRoomNo())
-//						  .orElseThrow(()->new IllegalArgumentException("Room not found"));
+//	public String checkRoomAvailability(String userName, BookingVO bookingVO) {
+//		boolean isAvailable;
+//		Room room = roomRepo.findByCategoryAndCapacityGreaterThanEqual(bookingVO.getCategory(),bookingVO.getBookedOccupancy()).getFirst();
+//		if(ObjectUtils.isEmpty(room)) {
+//			return "Room not found";
+//		}
+//
+//		User user= userRepo.findByUserName(userName)
+//		          .orElseThrow(()->new IllegalArgumentException("User not found"));
+//		Long roomId = room.getRoomId();
 //		
-//		if(customBookingRepo.isRoomAvailable(room.getRoomId(),bookingVO.getCheckIn(), bookingVO.getCheckOut())) {
-//			Booking booking = convertToEntity(bookingVO,room);
+//		List<Booking> bookingList = bookingRepo.findAll();
+//		if(!CollectionUtils.isEmpty(bookingList)) {
+//			isAvailable = customBookingRepo.isRoomAvailable(roomId,bookingVO.getCheckIn(),bookingVO.getCheckOut());
+//		} else {
+//			isAvailable = true;
+//		}
+//		if(isAvailable) {
+//			Booking booking = convertToEntity(bookingVO,room,user);
 //	        booking.setBookingNo(generateBookingNo());
 //	        bookingRepo.save(booking);
 //	        return booking.getBookingNo();		
 //		} else { 	
-//			throw new IllegalArgumentException("Room is not available for the selected dates.");
+//			return "Room is not available for the selected dates.";
 //		}
-		
-//		User user=userRepo.findByUserName(userName)
-//				          .orElseThrow(()->new IllegalArgumentException("User not found"));
-//
-//        booking.setUser(user); 
 //	}
+//	
 
+	//Check room availability for a selected date and room type and reserve a room
+	public String checkRoomAvailability(String userName, BookingVO bookingVO) {
+		int availableCount;
+		
+		Room room = roomRepo.findByCategoryAndCapacityGreaterThanEqual(bookingVO.getCategory(),bookingVO.getBookedOccupancy())
+							.stream()
+							.findFirst()
+							//.orElseThrow(()->new IllegalArgumentException("Room not found"));
+							.orElse(null);
+		if(room == null) {
+			return "Room not found";
+		}
+		
+		User user= userRepo.findByUserName(userName)
+		          .orElseThrow(()->new IllegalArgumentException("User not found"));
+		
+		Long roomId = room.getRoomId();
+		
+		availableCount = customBookingRepo.isRoomAvailable(roomId,bookingVO.getCheckIn(),bookingVO.getCheckOut());
 
-	
-
+		if(availableCount == 0) {
+			Booking booking = convertToEntity(bookingVO,room,user);
+	        booking.setBookingNo(generateBookingNo());
+	        bookingRepo.save(booking);
+	        return booking.getBookingNo();		
+		} else { 	
+			return "Room is not available for the selected dates.";
+		}
+	}
 
 		//convert BookingVO to Booking entity
 		private Booking convertToEntity(BookingVO bookingVO,Room room, User user) {
@@ -112,7 +123,5 @@ public class BookingService {
 	        Random random = new Random();
 	        return String.valueOf(1000 + random.nextInt(9000));
 	    }
-//		private String generateBookingNo() {
-//			return String.valueOf((int)(Math.random()*9000)+1000);
-//		}
+
 }

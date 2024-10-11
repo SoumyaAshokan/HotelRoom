@@ -29,7 +29,7 @@ public class Booking {
 	private LocalDate checkIn;
 	private LocalDate checkOut;
 	
-	@Column(name="bcp")
+	@Column(name="b_occupancy")
 	private int bookedOccupancy;
 	
 	@Column(name="booking_no",nullable=false,unique=true)
