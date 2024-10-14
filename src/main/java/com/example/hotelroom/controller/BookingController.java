@@ -2,10 +2,12 @@ package com.example.hotelroom.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.hotelroom.model.vo.BookingVO;
@@ -23,11 +25,17 @@ public class BookingController {
 	@PostMapping("/reserveBook")
 	public ResponseEntity<String> checkRoomAvailability(@RequestHeader("userId") String userName,
 	                                          @RequestBody BookingVO bookingVO) {
-	    String bookingNO = bookingService.checkRoomAvailability(userName, bookingVO  );
-	    return ResponseEntity.ok("Room reserved successfully. Booking number is: " + bookingNO);
+	    String bookingNO = bookingService.checkRoomAvailability(userName, bookingVO);
+	    //return ResponseEntity.ok("Room reserved successfully. Booking number is: " + bookingNO);
+	    return ResponseEntity.ok(bookingNO);
 	}
 	
-	
-
+	//cancel a reservation
+	@DeleteMapping("/cancelBooking")
+	public ResponseEntity<String> cancelBooking(@RequestHeader("userId") String userName,
+								                @RequestBody String bookingNo) {
+		String result=bookingService.cancelBooking(userName,bookingNo);
+		return ResponseEntity.ok(result);
+	}
 
 }

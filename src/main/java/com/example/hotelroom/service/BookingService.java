@@ -1,15 +1,10 @@
 package com.example.hotelroom.service;
 
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
-
 import com.example.hotelroom.model.entity.Booking;
 import com.example.hotelroom.model.entity.Room;
 import com.example.hotelroom.model.entity.User;
@@ -66,17 +61,22 @@ public class BookingService {
 	public String checkRoomAvailability(String userName, BookingVO bookingVO) {
 		int availableCount;
 		
+		User user = userRepo.findByUserName(userName)
+		          .orElse(null);
+		if(user == null) {
+			return "Invalid user";
+		}
+		
 		Room room = roomRepo.findByCategoryAndCapacityGreaterThanEqual(bookingVO.getCategory(),bookingVO.getBookedOccupancy())
 							.stream()
 							.findFirst()
 							//.orElseThrow(()->new IllegalArgumentException("Room not found"));
 							.orElse(null);
 		if(room == null) {
-			return "Room not found";
+			return "Room not available";
 		}
 		
-		User user= userRepo.findByUserName(userName)
-		          .orElseThrow(()->new IllegalArgumentException("User not found"));
+		
 		
 		Long roomId = room.getRoomId();
 		
@@ -86,7 +86,8 @@ public class BookingService {
 			Booking booking = convertToEntity(bookingVO,room,user);
 	        booking.setBookingNo(generateBookingNo());
 	        bookingRepo.save(booking);
-	        return booking.getBookingNo();		
+	        //return booking.getBookingNo();		
+	        return "Room reserved successfully. Booking number is:" + booking.getBookingNo();
 		} else { 	
 			return "Room is not available for the selected dates.";
 		}
@@ -123,5 +124,28 @@ public class BookingService {
 	        Random random = new Random();
 	        return String.valueOf(1000 + random.nextInt(9000));
 	    }
+
+		
+		//cancel a reservation
+		public String cancelBooking(String userName, String bookingNo) {
+			Booking booking=bookingRepo.findByBookingNo(bookingNo)
+									   .orElseThrow(()->new IllegalArgumentException("Booking not found"));
+			
+			User user= userRepo.findByUserName(userName)
+					           .orElseThrow(()->new IllegalArgumentException("Invalid user"));
+					           
+			if(!booking.getUser().getUserName().equals(userName) && !user.getRole().equalsIgnoreCase("Admin")) {
+				return "User is not authorized to cancel this booking";
+			}
+			
+			if(!booking.isStatus()) {
+				return "Booking is already canceled";
+			}
+			
+			booking.setStatus(false);
+			bookingRepo.save(booking);
+			
+			return "Booking canceled successfully";
+		}
 
 }
