@@ -1,9 +1,10 @@
 package com.example.hotelroom.repository;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 public interface CustomBookingRepository {
-	int isRoomAvailable(Long roomId,LocalDate checkIn, LocalDate checkOut);
+	Map<Long, String> checkRoomAvailability(LocalDate checkIn, LocalDate checkOut,String category, int bookedOccupancy);
 }
 
 //	@Query(value = "SELECT COUNT(*)=0 FROM bookings " +

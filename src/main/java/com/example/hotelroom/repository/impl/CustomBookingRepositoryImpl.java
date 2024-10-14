@@ -1,6 +1,9 @@
 package com.example.hotelroom.repository.impl;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -17,17 +20,31 @@ public class CustomBookingRepositoryImpl implements CustomBookingRepository{
 	private EntityManager entityManager;
 	
 	@Override
-	public int isRoomAvailable(Long roomId,LocalDate checkIn, LocalDate checkOut) {
-		String jpql = "SELECT COUNT(b) FROM Booking b WHERE b.room.roomId = :roomId " + "AND (:checkIn < b.checkOut  AND :checkOut > b.checkIn)"
-						+ "AND b.status = true";
+	public Map<Long,String> checkRoomAvailability(LocalDate checkIn, LocalDate checkOut, String category, int bookedOccupancy) {
+		String jpql = "SELECT r.roomId,r.roomNo FROM Room r " +
+	                  "LEFT JOIN Booking b ON r.roomId=b.room.roomId " +
+				      "WHERE r.category = :category " + 
+	                  "AND r.capacity >=  :bookedOccupancy " +
+	                 // "AND (:checkIn < b.checkOut  AND :checkOut > b.checkIn)"
+				      "AND (b.checkOut IS NULL OR :checkIn >= b.checkOut OR :checkOut <= b.checkIn)" +
+					  "AND (b.status IS NULL OR b.status = false)";
 		
-		TypedQuery<Long> query = entityManager.createQuery(jpql,Long.class);
-		query.setParameter("roomId", roomId);
+		TypedQuery<Object[]> query = entityManager.createQuery(jpql,Object[].class);
+		query.setParameter("category", category);
+		query.setParameter("bookedOccupancy", bookedOccupancy);
 		query.setParameter("checkIn", checkIn);
 		query.setParameter("checkOut", checkOut);
 		
-		return query.getSingleResult().intValue();
-
+		List<Object[]> results=query.getResultList();
+		
+		Map<Long,String> roomMap=new HashMap<>();
+		for(Object[] result:results) {
+			Long id=(Long) result[0];
+			String roomNo=(String) result[1];
+			roomMap.put(id,roomNo);
+		}
+		
+		return roomMap;
 	}
 
 }

@@ -1,8 +1,8 @@
 package com.example.hotelroom.service;
 
 
+import java.util.Map;
 import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.hotelroom.model.entity.Booking;
@@ -59,7 +59,6 @@ public class BookingService {
 
 	//Check room availability for a selected date and room type and reserve a room
 	public String checkRoomAvailability(String userName, BookingVO bookingVO) {
-		int availableCount;
 		
 		User user = userRepo.findByUserName(userName)
 		          .orElse(null);
@@ -67,31 +66,37 @@ public class BookingService {
 			return "Invalid user";
 		}
 		
-		Room room = roomRepo.findByCategoryAndCapacityGreaterThanEqual(bookingVO.getCategory(),bookingVO.getBookedOccupancy())
-							.stream()
-							.findFirst()
-							//.orElseThrow(()->new IllegalArgumentException("Room not found"));
-							.orElse(null);
-		if(room == null) {
-			return "Room not available";
+		Map<Long, String> availableRooms = customBookingRepo.checkRoomAvailability(bookingVO.getCheckIn(),
+				                           bookingVO.getCheckOut(),bookingVO.getCategory(),bookingVO.getBookedOccupancy());
+		
+		if(availableRooms.isEmpty()) {
+			return "Rooms are not available for the selected criteria";
 		}
 		
+		Long roomId = availableRooms.keySet().iterator().next();
+		String roomNo = availableRooms.get(roomId);
+//		Room room = roomRepo.findByCategoryAndCapacityGreaterThanEqual(bookingVO.getCategory(),bookingVO.getBookedOccupancy())
+//							.stream()
+//							.findFirst()
+//							//.orElseThrow(()->new IllegalArgumentException("Room not found"));
+//							.orElse(null);
+//		if(room == null) {
+//			return "Room not available";
+//		}
 		
+		//availableCount = customBookingRepo.isRoomAvailable(roomId,bookingVO.getCheckIn(),bookingVO.getCheckOut());
+		//if(availableCount == 0) {
 		
-		Long roomId = room.getRoomId();
-		
-		availableCount = customBookingRepo.isRoomAvailable(roomId,bookingVO.getCheckIn(),bookingVO.getCheckOut());
-
-		if(availableCount == 0) {
-			Booking booking = convertToEntity(bookingVO,room,user);
+			Booking booking = convertToEntity(bookingVO,roomRepo.findById(roomId)
+																.orElseThrow(()-> new IllegalArgumentException("Room not available")),user);
 	        booking.setBookingNo(generateBookingNo());
-	        bookingRepo.save(booking);
-	        //return booking.getBookingNo();		
+	        bookingRepo.save(booking);		
 	        return "Room reserved successfully. Booking number is:" + booking.getBookingNo();
-		} else { 	
-			return "Room is not available for the selected dates.";
-		}
-	}
+		} 
+//	        else { 	
+//			return "Room is not available for the selected dates.";
+//		}
+	
 
 		//convert BookingVO to Booking entity
 		private Booking convertToEntity(BookingVO bookingVO,Room room, User user) {
