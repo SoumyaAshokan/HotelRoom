@@ -28,35 +28,7 @@ public class BookingService {
 	@Autowired
 	UserRepository userRepo;
 	
-	//Check room availability for a selected date and room type and reserve a room
-//	public String checkRoomAvailability(String userName, BookingVO bookingVO) {
-//		boolean isAvailable;
-//		Room room = roomRepo.findByCategoryAndCapacityGreaterThanEqual(bookingVO.getCategory(),bookingVO.getBookedOccupancy()).getFirst();
-//		if(ObjectUtils.isEmpty(room)) {
-//			return "Room not found";
-//		}
-//
-//		User user= userRepo.findByUserName(userName)
-//		          .orElseThrow(()->new IllegalArgumentException("User not found"));
-//		Long roomId = room.getRoomId();
-//		
-//		List<Booking> bookingList = bookingRepo.findAll();
-//		if(!CollectionUtils.isEmpty(bookingList)) {
-//			isAvailable = customBookingRepo.isRoomAvailable(roomId,bookingVO.getCheckIn(),bookingVO.getCheckOut());
-//		} else {
-//			isAvailable = true;
-//		}
-//		if(isAvailable) {
-//			Booking booking = convertToEntity(bookingVO,room,user);
-//	        booking.setBookingNo(generateBookingNo());
-//	        bookingRepo.save(booking);
-//	        return booking.getBookingNo();		
-//		} else { 	
-//			return "Room is not available for the selected dates.";
-//		}
-//	}
-//	
-
+	
 	//Check room availability for a selected date and room type and reserve a room
 	public String checkRoomAvailability(String userName, BookingVO bookingVO) {
 		
@@ -75,17 +47,6 @@ public class BookingService {
 		
 		Long roomId = availableRooms.keySet().iterator().next();
 		String roomNo = availableRooms.get(roomId);
-//		Room room = roomRepo.findByCategoryAndCapacityGreaterThanEqual(bookingVO.getCategory(),bookingVO.getBookedOccupancy())
-//							.stream()
-//							.findFirst()
-//							//.orElseThrow(()->new IllegalArgumentException("Room not found"));
-//							.orElse(null);
-//		if(room == null) {
-//			return "Room not available";
-//		}
-		
-		//availableCount = customBookingRepo.isRoomAvailable(roomId,bookingVO.getCheckIn(),bookingVO.getCheckOut());
-		//if(availableCount == 0) {
 		
 			Booking booking = convertToEntity(bookingVO,roomRepo.findById(roomId)
 																.orElseThrow(()-> new IllegalArgumentException("Room not available")),user);
@@ -93,11 +54,7 @@ public class BookingService {
 	        bookingRepo.save(booking);		
 	        return "Room reserved successfully. Booking number is:" + booking.getBookingNo();
 		} 
-//	        else { 	
-//			return "Room is not available for the selected dates.";
-//		}
 	
-
 		//convert BookingVO to Booking entity
 		private Booking convertToEntity(BookingVO bookingVO,Room room, User user) {
 			Booking booking=new Booking();	
@@ -153,4 +110,35 @@ public class BookingService {
 			return "Booking canceled successfully";
 		}
 
+		
+		//Modify an existing reservation by adding more guests
+		public String updateBooking(String userName, String bookingNo, int additionalGuest) {
+			
+			Booking booking = bookingRepo.findByBookingNo(bookingNo)
+					            	   .orElse(null);
+			if(booking == null) {
+				return "Booking not found";
+			}
+					            	   
+			User user = userRepo.findByUserName(userName)
+								.orElseThrow(()-> new IllegalArgumentException("Invalid user"));
+			if(!booking.getUser().getUserName().equals(userName) && !user.getRole().equalsIgnoreCase("Admin")) {
+				return "User is not authorized to modify this booking.";
+			}
+			
+			if(!booking.isStatus()) {
+				return "Booking is already canceled";
+			}
+			
+			int newOccupancy = booking.getBookedOccupancy() + additionalGuest;
+			Room room=booking.getRoom();
+			if(newOccupancy > room.getCapacity()) {
+				return "Update guest count exceeds the room capacity.";
+			}
+			
+			booking.setBookedOccuppancy(newOccupancy);
+			bookingRepo.save(booking);
+			
+			return "Booking updated successfully. New guest count is : "+ newOccupancy;
+		}
 }

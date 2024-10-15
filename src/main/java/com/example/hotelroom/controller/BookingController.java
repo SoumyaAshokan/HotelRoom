@@ -3,6 +3,7 @@ package com.example.hotelroom.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,6 @@ public class BookingController {
 	public ResponseEntity<String> checkRoomAvailability(@RequestHeader("userId") String userName,
 	                                          @RequestBody BookingVO bookingVO) {
 	    String bookingNO = bookingService.checkRoomAvailability(userName, bookingVO);
-	    //return ResponseEntity.ok("Room reserved successfully. Booking number is: " + bookingNO);
 	    return ResponseEntity.ok(bookingNO);
 	}
 	
@@ -38,4 +38,12 @@ public class BookingController {
 		return ResponseEntity.ok(result);
 	}
 
+	//Modify an existing reservation by adding more guests
+	@PatchMapping("/updateGuests")
+	public ResponseEntity<String> updateBooking(@RequestHeader("userId") String userName,
+			      								@RequestParam String bookingNo,
+			      								@RequestParam int additionalGuest) {
+		String result = bookingService.updateBooking(userName,bookingNo,additionalGuest);
+		return ResponseEntity.ok(result);
+	}
 }
