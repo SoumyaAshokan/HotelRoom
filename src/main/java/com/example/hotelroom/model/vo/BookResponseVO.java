@@ -4,6 +4,9 @@ public class BookResponseVO {
 	
 	private String bookingNo;
 	private String roomNo;
+	private double totalRoomRate;
+	
+	
 	public String getBookingNo() {
 		return bookingNo;
 	}
@@ -16,6 +19,15 @@ public class BookResponseVO {
 	public void setRoomNo(String roomNo) {
 		this.roomNo = roomNo;
 	}
+
+	public double getTotalRoomRate() {
+		return totalRoomRate;
+	}
+
+	public void setTotalRoomRate(double totalRoomRate) {
+		this.totalRoomRate = totalRoomRate;
+	}
+
 	
 	
 }

@@ -6,6 +6,7 @@ public class RoomVO {
 	private String roomNo;
 	private String category;
 	private int capacity;
+	private Double roomRate;
 
 	public Long getRoomId() {
 		return roomId;
@@ -38,6 +39,14 @@ public class RoomVO {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
+
+	public Double getRoomRate() {
+		return roomRate;
+	}
+
+	public void setRoomRate(Double roomRate) {
+		this.roomRate = roomRate;
+	}
 	
-		
+	
 }

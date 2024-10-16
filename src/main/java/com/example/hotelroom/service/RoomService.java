@@ -1,5 +1,6 @@
 package com.example.hotelroom.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.hotelroom.model.entity.Room;
 import com.example.hotelroom.model.entity.User;
 import com.example.hotelroom.model.vo.RoomVO;
+import com.example.hotelroom.repository.CustomRoomRepository;
 import com.example.hotelroom.repository.RoomRepository;
 import com.example.hotelroom.repository.UserRepository;
 
@@ -18,6 +20,8 @@ public class RoomService {
 	RoomRepository roomRepo;
 	@Autowired
 	UserRepository userRepo;
+	@Autowired
+	CustomRoomRepository customRoomRepo;
 
 	//get all rooms
 	public List<Room> getRooms() {
@@ -47,6 +51,7 @@ public class RoomService {
 		existingRoom.setRoomNo(roomVO.getRoomNo());
 		existingRoom.setCategory(roomVO.getCategory());
 		existingRoom.setCapacity(roomVO.getCapacity());
+		existingRoom.setRoomRate(roomVO.getRoomRate());
 		roomRepo.save(existingRoom);
 	}
 	
@@ -89,4 +94,21 @@ public class RoomService {
 			return userRepo.findByUserName(userName)
 					       .orElseThrow(()-> new IllegalArgumentException("User not found"));
 		}
+
+	public String searchBooking(LocalDate checkIn, LocalDate checkOut, Integer bookedOccupancy, String category) {
+		
+		List<Object[]> availableRoomsData = customRoomRepo.searchBooking(checkIn, checkOut, bookedOccupancy, category);
+		if(availableRoomsData.isEmpty()) {
+			return "No rooms available";
+		}
+		
+		StringBuilder responseBuilder = new StringBuilder("Available rooms:\n");
+		for(Object[] roomData : availableRoomsData) {
+			String roomCategory = (String) roomData[0];
+			int availableCount = ((Number) roomData[1]).intValue();
+			responseBuilder.append("Category : ").append(roomCategory).append(", Available rooms : ").append(availableCount).append("\n");
+		}
+		
+		return responseBuilder.toString();
+	}
 }

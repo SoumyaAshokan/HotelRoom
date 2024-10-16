@@ -1,5 +1,6 @@
 package com.example.hotelroom.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.hotelroom.model.entity.Room;
+import com.example.hotelroom.model.vo.RoomAvailabilityVO;
 import com.example.hotelroom.model.vo.RoomVO;
 import com.example.hotelroom.service.RoomService;
 
@@ -53,5 +55,19 @@ public class RoomController {
 		roomservice.deleteRoom(userName,roomId);
 		return ResponseEntity.ok("Room deleted succesfully");
 	}
+	
+	//availability of rooms
+		@PostMapping("/searchRoom")
+		public ResponseEntity<String> searchBooking(@RequestHeader("userId") String userName,
+													@RequestBody RoomAvailabilityVO availabilityVO) {
+			
+			LocalDate checkIn = availabilityVO.getCheckIn();
+			LocalDate checkOut = availabilityVO.getCheckOut();
+			Integer bookedOccupancy = availabilityVO.getBookedOccupancy();
+			String category = availabilityVO.getCategory();
+			
+			String response = roomservice.searchBooking(checkIn, checkOut, bookedOccupancy, category);
+			return ResponseEntity.ok(response);
+		}
 	
 }

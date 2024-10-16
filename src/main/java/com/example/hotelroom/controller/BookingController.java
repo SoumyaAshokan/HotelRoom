@@ -1,5 +1,7 @@
 package com.example.hotelroom.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,23 +13,24 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.hotelroom.model.vo.BookResponseVO;
 import com.example.hotelroom.model.vo.BookingVO;
+import com.example.hotelroom.model.vo.RoomAvailabilityVO;
 import com.example.hotelroom.service.BookingService;
+import com.example.hotelroom.service.RoomService;
 
 @RestController
 
 public class BookingController {
 	@Autowired
 	BookingService bookingService;
-
-	
 	
 	//Check room availability for a selected date and room type and reserve a room
 	@PostMapping("/reserveBook")
-	public ResponseEntity<String> checkRoomAvailability(@RequestHeader("userId") String userName,
+	public ResponseEntity<BookResponseVO> checkRoomAvailability(@RequestHeader("userId") String userName,
 	                                          @RequestBody BookingVO bookingVO) {
-	    String bookingNO = bookingService.checkRoomAvailability(userName, bookingVO);
-	    return ResponseEntity.ok(bookingNO);
+		BookResponseVO responseVO = bookingService.checkRoomAvailability(userName, bookingVO);
+	    return ResponseEntity.ok(responseVO);
 	}
 	
 	//cancel a reservation
@@ -46,4 +49,6 @@ public class BookingController {
 		String result = bookingService.updateBooking(userName,bookingNo,additionalGuest);
 		return ResponseEntity.ok(result);
 	}
+	
+	
 }

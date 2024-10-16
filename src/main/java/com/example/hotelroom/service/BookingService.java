@@ -1,6 +1,7 @@
 package com.example.hotelroom.service;
 
 
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.hotelroom.model.entity.Booking;
 import com.example.hotelroom.model.entity.Room;
 import com.example.hotelroom.model.entity.User;
+import com.example.hotelroom.model.vo.BookResponseVO;
 import com.example.hotelroom.model.vo.BookingVO;
 import com.example.hotelroom.repository.BookingRepository;
 import com.example.hotelroom.repository.CustomBookingRepository;
@@ -30,29 +32,50 @@ public class BookingService {
 	
 	
 	//Check room availability for a selected date and room type and reserve a room
-	public String checkRoomAvailability(String userName, BookingVO bookingVO) {
+	public BookResponseVO checkRoomAvailability(String userName, BookingVO bookingVO) {
 		
 		User user = userRepo.findByUserName(userName)
-		          .orElse(null);
-		if(user == null) {
-			return "Invalid user";
-		}
+		          .orElseThrow(()-> new IllegalArgumentException("Invalid user"));
 		
-		Map<Long, String> availableRooms = customBookingRepo.checkRoomAvailability(bookingVO.getCheckIn(),
-				                           bookingVO.getCheckOut(),bookingVO.getCategory(),bookingVO.getBookedOccupancy());
+		Map<Long, String> availableRooms = customBookingRepo.checkRoomAvailability(
+										   bookingVO.getCheckIn(),
+				                           bookingVO.getCheckOut(),
+				                           bookingVO.getCategory(),
+				                           bookingVO.getBookedOccupancy());
 		
 		if(availableRooms.isEmpty()) {
-			return "Rooms are not available for the selected criteria";
+			throw new IllegalArgumentException("Rooms are not available for the selected criteria");
 		}
 		
 		Long roomId = availableRooms.keySet().iterator().next();
 		String roomNo = availableRooms.get(roomId);
+				
+		Room room = roomRepo.findById(roomId)
+				            .orElse(null);
+		if(room == null) {
+			throw new IllegalArgumentException("Room not available");
+		}
 		
-			Booking booking = convertToEntity(bookingVO,roomRepo.findById(roomId)
-																.orElseThrow(()-> new IllegalArgumentException("Room not available")),user);
+		
+		long numberOfDays = ChronoUnit.DAYS.between(bookingVO.getCheckIn(), bookingVO.getCheckOut()) + 1;
+		double totalRoomRate = room.getRoomRate() * numberOfDays;
+		
+			Booking booking = convertToEntity(bookingVO,room,user);
 	        booking.setBookingNo(generateBookingNo());
-	        bookingRepo.save(booking);		
-	        return "Room reserved successfully. Booking number is:" + booking.getBookingNo();
+	        bookingRepo.save(booking);
+	        
+	        BookResponseVO responseVO = new BookResponseVO();
+	        responseVO.setBookingNo(booking.getBookingNo());
+	        responseVO.setRoomNo(roomNo);
+	        responseVO.setTotalRoomRate(totalRoomRate);
+	        return responseVO;
+	        
+//	        String bookingNo = booking.getBookingNo();
+//	        return "Room reserved successfully.\n "
+//	        	   + "Booking number is:" + bookingNo +"\n"
+//	        	   + "Room number is: " +roomNo +"\n"
+//	        	   + "Total room rate for " +numberOfDays+ " days is: " + totalRoomRate;
+	        
 		} 
 	
 		//convert BookingVO to Booking entity
