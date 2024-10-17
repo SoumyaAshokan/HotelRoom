@@ -77,6 +77,7 @@ public class RoomService {
 		room.setRoomNo(roomVO.getRoomNo());
 		room.setCategory(roomVO.getCategory());
 		room.setCapacity(roomVO.getCapacity());
+		room.setRoomRate(roomVO.getRoomRate());
 		return room;	
 	}
 	
@@ -95,6 +96,7 @@ public class RoomService {
 					       .orElseThrow(()-> new IllegalArgumentException("User not found"));
 		}
 
+	//Availability check
 	public String searchBooking(LocalDate checkIn, LocalDate checkOut, Integer bookedOccupancy, String category) {
 		
 		List<Object[]> availableRoomsData = customRoomRepo.searchBooking(checkIn, checkOut, bookedOccupancy, category);

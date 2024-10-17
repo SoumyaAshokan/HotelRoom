@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface CustomRoomRepository {
 
-	List<Object[]> searchBooking(LocalDate checkIn, LocalDate checkOut, Integer bookedOccupancy, String category);
+	List<Object[]> searchBooking(LocalDate checkIn, LocalDate checkOut, Integer capacity, String category);
 
 }

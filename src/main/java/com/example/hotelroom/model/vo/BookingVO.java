@@ -10,6 +10,9 @@ public class BookingVO {
 	private LocalDate checkOut;
 	private String category;
 	private int bookedOccupancy;
+	private String userName;
+	private Double roomRate;
+
 	
 	public String getBookingNo() {
 		return bookingNo;
@@ -48,6 +51,19 @@ public class BookingVO {
 	}
 	public void setBookedOccupancy(int bookedOccupancy) {
 		this.bookedOccupancy = bookedOccupancy;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	public Double getRoomRate() {
+		return roomRate;
+	}
+	public void setRoomRate(Double roomRate) {
+		this.roomRate = roomRate;
 	}
 	
 }

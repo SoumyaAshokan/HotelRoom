@@ -2,8 +2,12 @@ package com.example.hotelroom.service;
 
 
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.hotelroom.model.entity.Booking;
@@ -101,6 +105,9 @@ public class BookingService {
 			bookingVO.setCheckOut(booking.getCheckOut());
 			bookingVO.setCategory(booking.getRoom().getCategory());
 			bookingVO.setBookedOccupancy(booking.getBookedOccupancy());
+	        bookingVO.setUserName(booking.getUser().getUserName());
+	        bookingVO.setRoomRate(booking.getRoom().getRoomRate());
+
 			return bookingVO;
 		}	
 		
@@ -163,5 +170,13 @@ public class BookingService {
 			bookingRepo.save(booking);
 			
 			return "Booking updated successfully. New guest count is : "+ newOccupancy;
+		}
+
+		//view all reservations
+		public List<BookingVO> viewAllReservations() {
+			List<Booking> bookings = bookingRepo.findAll();
+			return bookings.stream()
+					       .map(this::convertToVO)
+					       .collect(Collectors.toList());
 		}
 }

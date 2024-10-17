@@ -1,10 +1,12 @@
 package com.example.hotelroom.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,5 +52,10 @@ public class BookingController {
 		return ResponseEntity.ok(result);
 	}
 	
-	
+	//View all reservations
+	@GetMapping("/all")
+	public ResponseEntity<List<BookingVO>> viewAllReservations() {
+		List<BookingVO> bookings = bookingService.viewAllReservations();
+		return ResponseEntity.ok(bookings);
+	}
 }

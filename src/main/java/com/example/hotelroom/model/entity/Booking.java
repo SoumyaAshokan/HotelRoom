@@ -35,7 +35,9 @@ public class Booking {
 	@Column(name="booking_no",nullable=false,unique=true)
 	private String bookingNo;
 	
+	@Column(name="status")
 	private boolean status;
+
 	
 	public Booking() {
 		super();
