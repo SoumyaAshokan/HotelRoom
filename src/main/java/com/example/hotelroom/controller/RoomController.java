@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.hotelroom.exception.HotelCustomException;
 import com.example.hotelroom.model.entity.Room;
 import com.example.hotelroom.model.vo.RoomAvailabilityVO;
 import com.example.hotelroom.model.vo.RoomVO;
@@ -25,38 +26,74 @@ public class RoomController {
 	@Autowired
 	RoomService roomservice;
 	
-	/*
-	 *get all rooms 
+	/**
+	 * get all rooms 
+	 * @return
 	 */
 	@GetMapping("/rooms")
 	public List<Room> getRooms() {
 		return roomservice.getRooms();
 	}
 	
-	//add a room
+	/**
+	 * add a room
+	 * @param userName
+	 * @param roomVO
+	 * @return
+	 */
 	@PostMapping("/rooms")
 	public ResponseEntity<String> addRoom(@RequestHeader("userId") String userName,@RequestBody RoomVO roomVO) {
-		roomservice.addRoom(userName,roomVO);
-		return ResponseEntity.ok("Room added successfully");
+		try{
+			roomservice.addRoom(userName,roomVO);
+			return ResponseEntity.ok("Room added successfully");
+		}
+		catch (HotelCustomException e) {
+				return ResponseEntity.ok( e.getMessage()) ;
+		}
 	}
 	
-	//update a room by id
-	@PutMapping("/rooms/{roomId}")
+	/**
+	 * update a room by id
+	 * @param userName
+	 * @param roomVO
+	 * @return
+	 */
+	@PutMapping("/rooms")
 	public ResponseEntity<String> updateRoom(@RequestHeader("userId") String userName,
-											 @PathVariable Long roomId,
 											 @RequestBody RoomVO roomVO) {
-		roomservice.updateRoom(userName,roomId,roomVO);
-		return ResponseEntity.ok("Room updated successfully");
+		try {
+			roomservice.updateRoom(userName,roomVO);
+			return ResponseEntity.ok("Room updated successfully");
+		}
+		catch(HotelCustomException e) {
+			return ResponseEntity.ok(e.getMessage());
+		}
 	}
 	
-	//delete a room by id
+	/**
+	 * delete a room by id
+	 * @param userName
+	 * @param roomId
+	 * @return
+	 */
 	@DeleteMapping("/rooms/{roomId}")
 	public ResponseEntity<String> deleteRoom(@RequestHeader("userId") String userName,@PathVariable Long roomId) {
-		roomservice.deleteRoom(userName,roomId);
-		return ResponseEntity.ok("Room deleted succesfully");
+		try {
+			roomservice.deleteRoom(userName,roomId);
+			return ResponseEntity.ok("Room deleted succesfully");
+		}
+		catch(HotelCustomException e) {
+			return ResponseEntity.ok(e.getMessage());
+		}
+		
 	}
 	
-	//availability of rooms
+	/**
+	 * availability of rooms
+	 * @param userName
+	 * @param availabilityVO
+	 * @return
+	 */
 		@PostMapping("/searchRoom")
 		public ResponseEntity<String> searchBooking(@RequestHeader("userId") String userName,
 													@RequestBody RoomAvailabilityVO availabilityVO) {

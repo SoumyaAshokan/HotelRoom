@@ -17,18 +17,18 @@ public class Room {
 	private String category;
 	private int capacity;
 	@Column(name = "room_rate", nullable = false)
-	private Double roomRate;
+	private Double roomRatePerDay;
 	
 	public Room() {
 		super();
 	}
 	
-	public Room(String roomNo, String category, int capacity, Double roomRate) {
+	public Room(String roomNo, String category, int capacity, Double roomRatePerDay) {
 		super();
 		this.roomNo = roomNo;
 		this.category = category;
 		this.capacity = capacity;
-		this.roomRate = roomRate;
+		this.roomRatePerDay = roomRatePerDay;
 	}
 
 	public Long getRoomId() {
@@ -63,12 +63,12 @@ public class Room {
 		this.capacity = capacity;
 	}
 
-	public Double getRoomRate() {
-		return roomRate;
+	public Double getRoomRatePerDay() {
+		return roomRatePerDay;
 	}
 
-	public void setRoomRate(Double roomRate) {
-		this.roomRate = roomRate;
+	public void setRoomRatePerDay(Double roomRatePerDay) {
+		this.roomRatePerDay = roomRatePerDay;
 	}
 
 	

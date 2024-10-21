@@ -2,7 +2,7 @@ package com.example.hotelroom.model.vo;
 
 import java.time.LocalDate;
 
-public class BookingVO {
+public class ViewVO {
 
 	private String bookingNo;
 	private String roomNo;
@@ -12,10 +12,7 @@ public class BookingVO {
 	private int bookedOccupancy;
 	private String userName;
 	private Double roomRatePerDay;
-	private int additionalGuest;
 	private Boolean status;
-
-	
 	public String getBookingNo() {
 		return bookingNo;
 	}
@@ -40,14 +37,12 @@ public class BookingVO {
 	public void setCheckOut(LocalDate checkOut) {
 		this.checkOut = checkOut;
 	}
-	
 	public String getCategory() {
 		return category;
 	}
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	
 	public int getBookedOccupancy() {
 		return bookedOccupancy;
 	}
@@ -67,13 +62,7 @@ public class BookingVO {
 	public void setRoomRatePerDay(Double roomRatePerDay) {
 		this.roomRatePerDay = roomRatePerDay;
 	}
-	public int getAdditionalGuest() {
-		return additionalGuest;
-	}
-	public void setAdditionalGuest(int additionalGuest) {
-		this.additionalGuest = additionalGuest;
-	}
-	public Boolean isStatus() {
+	public Boolean getStatus() {
 		return status;
 	}
 	public void setStatus(Boolean status) {

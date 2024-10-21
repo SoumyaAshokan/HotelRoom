@@ -6,7 +6,7 @@ public class RoomVO {
 	private String roomNo;
 	private String category;
 	private int capacity;
-	private Double roomRate;
+	private Double roomRatePerDay;
 
 	public Long getRoomId() {
 		return roomId;
@@ -40,12 +40,12 @@ public class RoomVO {
 		this.capacity = capacity;
 	}
 
-	public Double getRoomRate() {
-		return roomRate;
+	public Double getRoomRatePerDay() {
+		return roomRatePerDay;
 	}
 
-	public void setRoomRate(Double roomRate) {
-		this.roomRate = roomRate;
+	public void setRoomRatePerDay(Double roomRatePerDay) {
+		this.roomRatePerDay = roomRatePerDay;
 	}
 	
 	
