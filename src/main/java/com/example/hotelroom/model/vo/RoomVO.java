@@ -1,7 +1,7 @@
 package com.example.hotelroom.model.vo;
 
 public class RoomVO {
-	
+
 	private Long roomId;
 	private String roomNo;
 	private String category;
@@ -47,6 +47,5 @@ public class RoomVO {
 	public void setRoomRatePerDay(Double roomRatePerDay) {
 		this.roomRatePerDay = roomRatePerDay;
 	}
-	
-	
+
 }

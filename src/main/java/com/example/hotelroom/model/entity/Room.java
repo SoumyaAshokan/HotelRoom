@@ -8,21 +8,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="rooms")
+@Table(name = "rooms")
 public class Room {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long roomId;
 	private String roomNo;
 	private String category;
 	private int capacity;
 	@Column(name = "room_rate", nullable = false)
 	private Double roomRatePerDay;
-	
+
 	public Room() {
 		super();
 	}
-	
+
 	public Room(String roomNo, String category, int capacity, Double roomRatePerDay) {
 		super();
 		this.roomNo = roomNo;
@@ -71,6 +71,4 @@ public class Room {
 		this.roomRatePerDay = roomRatePerDay;
 	}
 
-	
-	
 }

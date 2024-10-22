@@ -25,86 +25,89 @@ public class RoomController {
 
 	@Autowired
 	RoomService roomservice;
-	
+
+	private static final String USER_ID = "userId";
+
 	/**
-	 * get all rooms 
+	 * get all rooms
+	 * 
 	 * @return
 	 */
 	@GetMapping("/rooms")
 	public List<Room> getRooms() {
 		return roomservice.getRooms();
 	}
-	
+
 	/**
 	 * add a room
+	 * 
 	 * @param userName
 	 * @param roomVO
 	 * @return
 	 */
 	@PostMapping("/rooms")
-	public ResponseEntity<String> addRoom(@RequestHeader("userId") String userName,@RequestBody RoomVO roomVO) {
-		try{
-			roomservice.addRoom(userName,roomVO);
+	public ResponseEntity<String> addRoom(@RequestHeader(USER_ID) String userName, @RequestBody RoomVO roomVO) {
+		try {
+			roomservice.addRoom(userName, roomVO);
 			return ResponseEntity.ok("Room added successfully");
-		}
-		catch (HotelCustomException e) {
-				return ResponseEntity.ok( e.getMessage()) ;
+		} catch (HotelCustomException e) {
+			return ResponseEntity.ok(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * update a room by id
+	 * 
 	 * @param userName
 	 * @param roomVO
 	 * @return
 	 */
 	@PutMapping("/rooms")
-	public ResponseEntity<String> updateRoom(@RequestHeader("userId") String userName,
-											 @RequestBody RoomVO roomVO) {
+	public ResponseEntity<String> updateRoom(@RequestHeader(USER_ID) String userName, @RequestBody RoomVO roomVO) {
 		try {
-			roomservice.updateRoom(userName,roomVO);
+			roomservice.updateRoom(userName, roomVO);
 			return ResponseEntity.ok("Room updated successfully");
-		}
-		catch(HotelCustomException e) {
+		} catch (HotelCustomException e) {
 			return ResponseEntity.ok(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * delete a room by id
+	 * 
 	 * @param userName
 	 * @param roomId
 	 * @return
 	 */
 	@DeleteMapping("/rooms/{roomId}")
-	public ResponseEntity<String> deleteRoom(@RequestHeader("userId") String userName,@PathVariable Long roomId) {
+	public ResponseEntity<String> deleteRoom(@RequestHeader(USER_ID) String userName, @PathVariable Long roomId) {
 		try {
-			roomservice.deleteRoom(userName,roomId);
+			roomservice.deleteRoom(userName, roomId);
 			return ResponseEntity.ok("Room deleted succesfully");
-		}
-		catch(HotelCustomException e) {
+		} catch (HotelCustomException e) {
 			return ResponseEntity.ok(e.getMessage());
 		}
-		
+
 	}
-	
+
 	/**
 	 * availability of rooms
+	 * 
 	 * @param userName
 	 * @param availabilityVO
 	 * @return
 	 */
-		@PostMapping("/searchRoom")
-		public ResponseEntity<String> searchBooking(@RequestHeader("userId") String userName,
-													@RequestBody RoomAvailabilityVO availabilityVO) {
-			
-			LocalDate checkIn = availabilityVO.getCheckIn();
-			LocalDate checkOut = availabilityVO.getCheckOut();
-			Integer bookedOccupancy = availabilityVO.getBookedOccupancy();
-			String category = availabilityVO.getCategory();
-			
-			String response = roomservice.searchBooking(checkIn, checkOut, bookedOccupancy, category);
-			return ResponseEntity.ok(response);
-		}
-	
+	@PostMapping("/searchRoom")
+	public ResponseEntity<String> searchBooking(@RequestHeader(USER_ID) String userName,
+			@RequestBody RoomAvailabilityVO availabilityVO) {
+
+		LocalDate checkIn = availabilityVO.getCheckIn();
+		LocalDate checkOut = availabilityVO.getCheckOut();
+		Integer bookedOccupancy = availabilityVO.getBookedOccupancy();
+		String category = availabilityVO.getCategory();
+
+		String response = roomservice.searchBooking(checkIn, checkOut, bookedOccupancy, category);
+		return ResponseEntity.ok(response);
+	}
+
 }

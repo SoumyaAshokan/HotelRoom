@@ -10,6 +10,6 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(HotelCustomException.class)
 	public ResponseEntity<String> handleHotelCustomException(HotelCustomException ex) {
-		return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN); 
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
 	}
 }

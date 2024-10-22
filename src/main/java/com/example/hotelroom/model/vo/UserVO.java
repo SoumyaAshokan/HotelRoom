@@ -6,7 +6,6 @@ public class UserVO {
 	private String userName;
 	private String role;
 
-
 	public Long getUserId() {
 		return userId;
 	}

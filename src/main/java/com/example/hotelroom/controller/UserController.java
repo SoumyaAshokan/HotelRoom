@@ -11,13 +11,13 @@ import com.example.hotelroom.service.UserService;
 
 @RestController
 public class UserController {
-	
+
 	@Autowired
 	UserService userservice;
-	
+
 	@GetMapping("/users")
 	public List<User> getUsers() {
 		return userservice.getUsers();
 	}
-	
+
 }

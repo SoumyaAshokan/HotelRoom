@@ -12,38 +12,37 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="bookings")
+@Table(name = "bookings")
 public class Booking {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long bookingId;
-	
+
 	@ManyToOne
-	@JoinColumn(name="user_id",nullable=false)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
-	
+
 	@ManyToOne
-	@JoinColumn(name="room_id",nullable=false)
+	@JoinColumn(name = "room_id", nullable = false)
 	private Room room;
-	
+
 	private LocalDate checkIn;
 	private LocalDate checkOut;
-	
-	@Column(name="b_occupancy")
+
+	@Column(name = "b_occupancy")
 	private int bookedOccupancy;
-	
-	@Column(name="booking_no",nullable=false,unique=true)
+
+	@Column(name = "booking_no", nullable = false, unique = true)
 	private String bookingNo;
-	
-	@Column(name="status")
+
+	@Column(name = "status")
 	private boolean status;
 
-	
 	public Booking() {
 		super();
 	}
 
-	public Booking(User user, Room room, LocalDate checkIn, LocalDate checkOut, int bookedOccupancy,String bookingNo,
+	public Booking(User user, Room room, LocalDate checkIn, LocalDate checkOut, int bookedOccupancy, String bookingNo,
 			boolean status) {
 		super();
 		this.user = user;
@@ -51,7 +50,7 @@ public class Booking {
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
 		this.bookedOccupancy = bookedOccupancy;
-		this.bookingNo=bookingNo;
+		this.bookingNo = bookingNo;
 		this.status = status;
 	}
 
@@ -103,7 +102,6 @@ public class Booking {
 		this.bookedOccupancy = bookedOccupancy;
 	}
 
-
 	public String getBookingNo() {
 		return bookingNo;
 	}
@@ -120,5 +118,4 @@ public class Booking {
 		this.status = status;
 	}
 
-	
 }

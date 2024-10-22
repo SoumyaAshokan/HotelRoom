@@ -10,7 +10,7 @@ import com.example.hotelroom.repository.UserRepository;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	UserRepository userRepo;
 

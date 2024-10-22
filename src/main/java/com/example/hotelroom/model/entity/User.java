@@ -7,19 +7,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
-	
+
 	private String userName;
 	private String role;
-	
+
 	public User() {
 		super();
 	}
-	
+
 	public User(String userName, String role) {
 		super();
 		this.userName = userName;
@@ -49,7 +49,5 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
-	
-	
+
 }

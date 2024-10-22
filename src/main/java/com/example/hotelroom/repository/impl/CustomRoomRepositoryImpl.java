@@ -12,46 +12,47 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
 @Repository
-public class CustomRoomRepositoryImpl implements CustomRoomRepository{
-	
+public class CustomRoomRepositoryImpl implements CustomRoomRepository {
+
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
+	private static final String SEARCH_BOOK_QUERY = "SELECT r.category, COUNT(r.roomId) FROM Room r ";
+
 	@Override
 	public List<Object[]> searchBooking(LocalDate checkIn, LocalDate checkOut, Integer capacity, String category) {
-		
-		StringBuilder queryBuilder = new StringBuilder("SELECT r.category, COUNT(r.roomId) FROM Room r ");
+
+		StringBuilder queryBuilder = new StringBuilder(SEARCH_BOOK_QUERY);
+
 		queryBuilder.append("LEFT JOIN Booking b ON r.roomId = b.room.roomId AND ");
-	    		
-		queryBuilder.append("((b.checkIn BETWEEN :checkIn AND :checkOut) OR (b.checkOut BETWEEN :checkIn AND :checkOut)) ");
+
+		queryBuilder
+				.append("((b.checkIn BETWEEN :checkIn AND :checkOut) OR (b.checkOut BETWEEN :checkIn AND :checkOut)) ");
 		queryBuilder.append("WHERE ( b.bookingId IS NULL OR b.status = false) ");
-		
-	
-		if(capacity != null) {
+
+		if (capacity != null) {
 			queryBuilder.append("AND r.capacity >= :capacity ");
 		}
-		
-		if(category != null &&  !category.isEmpty()) {
-			queryBuilder.append("AND r.category = :category " );
+
+		if (category != null && !category.isEmpty()) {
+			queryBuilder.append("AND r.category = :category ");
 		}
-		
-		queryBuilder.append( " GROUP BY r.category");
-		
-		TypedQuery<Object[]> query = entityManager.createQuery(queryBuilder.toString(),Object[].class);
+
+		queryBuilder.append(" GROUP BY r.category");
+
+		TypedQuery<Object[]> query = entityManager.createQuery(queryBuilder.toString(), Object[].class);
 		query.setParameter("checkIn", checkIn);
 		query.setParameter("checkOut", checkOut);
 
-		if(capacity != null) {
+		if (capacity != null) {
 			query.setParameter("capacity", capacity);
 		}
-		
-		if(category != null && !category.isEmpty()) {
+
+		if (category != null && !category.isEmpty()) {
 			query.setParameter("category", category);
 		}
-		
+
 		return query.getResultList();
 	}
-
-	
 
 }
