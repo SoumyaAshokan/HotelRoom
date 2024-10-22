@@ -15,7 +15,6 @@ import com.example.hotelroom.model.entity.Room;
 import com.example.hotelroom.model.entity.User;
 import com.example.hotelroom.model.vo.BookResponseVO;
 import com.example.hotelroom.model.vo.BookingVO;
-import com.example.hotelroom.model.vo.ViewVO;
 import com.example.hotelroom.repository.BookingRepository;
 import com.example.hotelroom.repository.CustomBookingRepository;
 import com.example.hotelroom.repository.RoomRepository;
@@ -119,27 +118,6 @@ public class BookingService {
 		return booking;
 	}
 
-	/**
-	 * convert Booking Entity to BookingVO
-	 * 
-	 * @param booking
-	 * @return
-	 */
-	private BookingVO convertToVO(Booking booking) {
-		BookingVO bookingVO = new BookingVO();
-		bookingVO.setBookingNo(booking.getBookingNo());
-		bookingVO.setRoomNo(booking.getRoom().getRoomNo());
-		bookingVO.setCheckIn(booking.getCheckIn());
-		bookingVO.setCheckOut(booking.getCheckOut());
-		bookingVO.setCategory(booking.getRoom().getCategory());
-		bookingVO.setBookedOccupancy(booking.getBookedOccupancy());
-		bookingVO.setUserName(booking.getUser().getUserName());
-		bookingVO.setRoomRatePerDay(booking.getRoom().getRoomRatePerDay());
-		bookingVO.setStatus(booking.isStatus());
-
-		return bookingVO;
-	}
-
 	private String generateBookingNo() {
 		Random random = new Random();
 		return String.valueOf(1000 + random.nextInt(9000));
@@ -216,28 +194,26 @@ public class BookingService {
 	 * @param userName
 	 * @return
 	 */
-	public List<ViewVO> viewAllBookings(ViewVO viewVO) {
+	public List<BookingVO> viewAllBookings(BookingVO bookingVO) {
 
-		Boolean status = viewVO.getStatus();
-		String bookingNo = viewVO.getBookingNo();
-		String category = viewVO.getCategory();
-		String userName = viewVO.getUserName();
+		Boolean status = bookingVO.isStatus();
+		String bookingNo = bookingVO.getBookingNo();
+		String category = bookingVO.getCategory();
+		String userName = bookingVO.getUserName();
 		List<Booking> bookings = customBookingRepo.searchBookings(status, bookingNo, category, userName);
-		return bookings.stream().map(this::convertToViewVO).collect(Collectors.toList());
+		return bookings.stream()
+                .map(booking -> new BookingVO(
+                     booking.getBookingNo(),
+                     booking.getRoom().getRoomNo(),
+                     booking.getCheckIn(),
+                     booking.getCheckOut(),
+                     booking.getRoom().getCategory(),
+                     booking.getBookedOccupancy(),
+                     booking.getUser().getUserName(),
+                     booking.getRoom().getRoomRatePerDay(),
+                     booking.isStatus()))
+                .collect(Collectors.toList());
+	
 	}
 
-	private ViewVO convertToViewVO(Booking booking) {
-		ViewVO viewVO = new ViewVO();
-		viewVO.setBookingNo(booking.getBookingNo());
-		viewVO.setRoomNo(booking.getRoom().getRoomNo());
-		viewVO.setCheckIn(booking.getCheckIn());
-		viewVO.setCheckOut(booking.getCheckOut());
-		viewVO.setCategory(booking.getRoom().getCategory());
-		viewVO.setBookedOccupancy(booking.getBookedOccupancy());
-		viewVO.setUserName(booking.getUser().getUserName());
-		viewVO.setRoomRatePerDay(booking.getRoom().getRoomRatePerDay());
-		viewVO.setStatus(booking.isStatus());
-
-		return viewVO;
-	}
 }

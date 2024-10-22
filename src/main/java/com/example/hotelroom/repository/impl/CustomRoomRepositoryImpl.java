@@ -17,18 +17,15 @@ public class CustomRoomRepositoryImpl implements CustomRoomRepository {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	private static final String SEARCH_BOOK_QUERY = "SELECT r.category, COUNT(r.roomId) FROM Room r ";
+	private static final String SEARCH_BOOK_QUERY = "SELECT r.category, COUNT(r.roomId) FROM Room r "
+			+ "LEFT JOIN Booking b ON r.roomId = b.room.roomId AND  "
+			+ "((b.checkIn BETWEEN :checkIn AND :checkOut) OR (b.checkOut BETWEEN :checkIn AND :checkOut)) "
+			+ "WHERE ( b.bookingId IS NULL OR b.status = false)";
 
 	@Override
 	public List<Object[]> searchBooking(LocalDate checkIn, LocalDate checkOut, Integer capacity, String category) {
 
 		StringBuilder queryBuilder = new StringBuilder(SEARCH_BOOK_QUERY);
-
-		queryBuilder.append("LEFT JOIN Booking b ON r.roomId = b.room.roomId AND ");
-
-		queryBuilder
-				.append("((b.checkIn BETWEEN :checkIn AND :checkOut) OR (b.checkOut BETWEEN :checkIn AND :checkOut)) ");
-		queryBuilder.append("WHERE ( b.bookingId IS NULL OR b.status = false) ");
 
 		if (capacity != null) {
 			queryBuilder.append("AND r.capacity >= :capacity ");

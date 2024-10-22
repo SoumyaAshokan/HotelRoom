@@ -25,7 +25,8 @@ public class RoomService {
 	CustomRoomRepository customRoomRepo;
 
 	private static final String ROOM_NOT_FOUND = "Room with this id not found";
-	
+	private static final String ADMIN = "Admin";
+
 	/**
 	 * get all rooms
 	 * 
@@ -43,7 +44,7 @@ public class RoomService {
 	 */
 	public void addRoom(String userName, RoomVO roomVO) {
 		User user = getUserByName(userName);
-		if (!user.getRole().equalsIgnoreCase("Admin")) {
+		if (!user.getRole().equalsIgnoreCase(ADMIN)) {
 			throw new HotelCustomException("Only admin can add rooms.");
 		}
 
@@ -59,13 +60,12 @@ public class RoomService {
 	 */
 	public void updateRoom(String userName, RoomVO roomVO) {
 		User user = getUserByName(userName);
-		if (!user.getRole().equalsIgnoreCase("Admin")) {
+		if (!user.getRole().equalsIgnoreCase(ADMIN)) {
 			throw new HotelCustomException("Only admin can update rooms.");
 		}
 
 		Long roomId = roomVO.getRoomId();
-		Room existingRoom = roomRepo.findById(roomId)
-				.orElseThrow(() -> new HotelCustomException(ROOM_NOT_FOUND));
+		Room existingRoom = roomRepo.findById(roomId).orElseThrow(() -> new HotelCustomException(ROOM_NOT_FOUND));
 		existingRoom.setRoomNo(roomVO.getRoomNo());
 		existingRoom.setCategory(roomVO.getCategory());
 		existingRoom.setCapacity(roomVO.getCapacity());
@@ -81,7 +81,7 @@ public class RoomService {
 	 */
 	public void deleteRoom(String userName, Long roomId) {
 		User user = getUserByName(userName);
-		if (!user.getRole().equalsIgnoreCase("Admin")) {
+		if (!user.getRole().equalsIgnoreCase(ADMIN)) {
 			throw new HotelCustomException("Only admin can delete rooms");
 		}
 
@@ -106,21 +106,6 @@ public class RoomService {
 		room.setCapacity(roomVO.getCapacity());
 		room.setRoomRatePerDay(roomVO.getRoomRatePerDay());
 		return room;
-	}
-
-	/**
-	 * convert Room Entity to RoomVO
-	 * 
-	 * @param room
-	 * @return
-	 */
-	private RoomVO convertToVO(Room room) {
-		RoomVO roomVO = new RoomVO();
-		roomVO.setRoomId(room.getRoomId());
-		roomVO.setRoomNo(room.getRoomNo());
-		roomVO.setCategory(room.getCategory());
-		roomVO.setCapacity(room.getCapacity());
-		return roomVO;
 	}
 
 	private User getUserByName(String userName) {

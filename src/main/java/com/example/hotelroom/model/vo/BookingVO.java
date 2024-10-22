@@ -2,6 +2,9 @@ package com.example.hotelroom.model.vo;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class BookingVO {
 
 	private String bookingNo;
@@ -12,8 +15,29 @@ public class BookingVO {
 	private int bookedOccupancy;
 	private String userName;
 	private Double roomRatePerDay;
+	@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 	private int additionalGuest;
 	private Boolean status;
+
+	
+	
+	public BookingVO() {
+		super();
+	}
+
+	public BookingVO(String bookingNo, String roomNo, LocalDate checkIn, LocalDate checkOut, String category,
+			int bookedOccupancy, String userName, Double roomRatePerDay, Boolean status) {
+		super();
+		this.bookingNo = bookingNo;
+		this.roomNo = roomNo;
+		this.checkIn = checkIn;
+		this.checkOut = checkOut;
+		this.category = category;
+		this.bookedOccupancy = bookedOccupancy;
+		this.userName = userName;
+		this.roomRatePerDay = roomRatePerDay;
+		this.status = status;
+	}
 
 	public String getBookingNo() {
 		return bookingNo;

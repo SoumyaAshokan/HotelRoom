@@ -90,8 +90,8 @@ public class BookingController {
 	 * @return
 	 */
 	@PostMapping("/viewBooking")
-	public ResponseEntity<List<ViewVO>> viewAllBookings(@RequestBody ViewVO viewVO) {
-		List<ViewVO> bookings = bookingService.viewAllBookings(viewVO);
+	public ResponseEntity<List<BookingVO>> viewAllBookings(@RequestBody BookingVO bookingVO) {
+		List<BookingVO> bookings = bookingService.viewAllBookings(bookingVO);
 		return ResponseEntity.ok(bookings);
 	}
 
