@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.hotelroom.exception.HotelCustomException;
 import com.example.hotelroom.model.vo.BookResponseVO;
 import com.example.hotelroom.model.vo.BookingVO;
-import com.example.hotelroom.model.vo.ViewVO;
 import com.example.hotelroom.service.BookingService;
 
 @RestController

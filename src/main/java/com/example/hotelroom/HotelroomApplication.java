@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.example.hotelroom.repository")
 @EntityScan(basePackages = "com.example.hotelroom.model")
+@ComponentScan(basePackages = "com.example.hotelroom")
 @ComponentScan(basePackages = "com.example.hotelroom.service")
 @ComponentScan(basePackages = "com.example.hotelroom.controller")
 @ComponentScan(basePackages = "com.example.hotelroom.repository.impl")

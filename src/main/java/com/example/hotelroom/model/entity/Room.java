@@ -20,15 +20,7 @@ public class Room {
 	private Double roomRatePerDay;
 
 	public Room() {
-		super();
-	}
 
-	public Room(String roomNo, String category, int capacity, Double roomRatePerDay) {
-		super();
-		this.roomNo = roomNo;
-		this.category = category;
-		this.capacity = capacity;
-		this.roomRatePerDay = roomRatePerDay;
 	}
 
 	public Long getRoomId() {

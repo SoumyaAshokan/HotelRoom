@@ -2,7 +2,6 @@ package com.example.hotelroom.model.vo;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 public class BookingVO {
@@ -19,8 +18,6 @@ public class BookingVO {
 	private int additionalGuest;
 	private Boolean status;
 
-	
-	
 	public BookingVO() {
 		super();
 	}

@@ -17,13 +17,7 @@ public class User {
 	private String role;
 
 	public User() {
-		super();
-	}
 
-	public User(String userName, String role) {
-		super();
-		this.userName = userName;
-		this.role = role;
 	}
 
 	public Long getUserId() {

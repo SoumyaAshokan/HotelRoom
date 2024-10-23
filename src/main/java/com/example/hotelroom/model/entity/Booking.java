@@ -39,19 +39,7 @@ public class Booking {
 	private boolean status;
 
 	public Booking() {
-		super();
-	}
 
-	public Booking(User user, Room room, LocalDate checkIn, LocalDate checkOut, int bookedOccupancy, String bookingNo,
-			boolean status) {
-		super();
-		this.user = user;
-		this.room = room;
-		this.checkIn = checkIn;
-		this.checkOut = checkOut;
-		this.bookedOccupancy = bookedOccupancy;
-		this.bookingNo = bookingNo;
-		this.status = status;
 	}
 
 	public Long getBookingId() {

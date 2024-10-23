@@ -69,13 +69,11 @@ public class BookingService {
 				if (currentOccupancy + bookingVO.getBookedOccupancy() <= room.getCapacity()) {
 					roomId = entry.getKey();
 					roomNo = entry.getValue();
-					// break;
 				}
 			}
 		}
 
 		if (roomId == null || roomNo == null) {
-//		//if(roomId == null) {
 			throw new HotelCustomException(ROOM_NOT_AVAILABLE);
 		}
 
